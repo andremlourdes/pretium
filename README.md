@@ -388,7 +388,7 @@ Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para de
 ## 📧 Contato
 
 Para dúvidas ou sugestões, entre em contato:
-- Email: pretium@example.com
+- Email: andrewsmarcelus@outlook.com
 - GitHub Issues: [Criar uma issue](https://github.com/seu-usuario/pretium/issues)
 
 ## 🙏 Agradecimentos
@@ -401,5 +401,6 @@ Para dúvidas ou sugestões, entre em contato:
 
 **Desenvolvido com ❤️ para economizar seu dinheiro no supermercado!**
 
-#   p r e t i u m  
+#   p r e t i u m 
+ 
  
