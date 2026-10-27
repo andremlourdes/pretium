@@ -1,0 +1,172 @@
+{
+  "info": {
+    "_postman_id": "8c52d5fa-7bb0-4b3b-bf20-pretium-api",
+    "name": "Pretium API",
+    "description": "Coleção para testar a API Pretium. Inicie a aplicação Spring Boot antes de executar as requisições.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:8081" },
+    { "key": "locationId", "value": "1" },
+    { "key": "storeId", "value": "1" },
+    { "key": "productId", "value": "1" },
+    { "key": "receiptId", "value": "1" },
+    { "key": "itemId", "value": "1" },
+    { "key": "country", "value": "Brasil" },
+    { "key": "state", "value": "São Paulo" },
+    { "key": "city", "value": "São Paulo" },
+    { "key": "category", "value": "Alimentos" },
+    { "key": "brand", "value": "Marca A" },
+    { "key": "status", "value": "ACTIVE" },
+    { "key": "startDate", "value": "2024-01-01T00:00:00" },
+    { "key": "endDate", "value": "2024-12-31T23:59:59" }
+  ],
+  "item": [
+    {
+      "name": "Locations",
+      "item": [
+        {
+          "name": "Create location",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"country\": \"Brasil\",\n  \"state\": \"São Paulo\",\n  \"city\": \"São Paulo\",\n  \"zipCode\": \"01310-100\",\n  \"latitude\": -23.5505,\n  \"longitude\": -46.6333\n}" },
+            "url": { "raw": "{{baseUrl}}/api/locations", "host": ["{{baseUrl}}"], "path": ["api", "locations"] }
+          }
+        },
+        {
+          "name": "List locations",
+          "request": { "method": "GET", "url": { "raw": "{{baseUrl}}/api/locations", "host": ["{{baseUrl}}"], "path": ["api", "locations"] } }
+        },
+        {
+          "name": "Get location by id",
+          "request": { "method": "GET", "url": { "raw": "{{baseUrl}}/api/locations/{{locationId}}", "host": ["{{baseUrl}}"], "path": ["api", "locations", "{{locationId}}"] } }
+        },
+        {
+          "name": "Find locations by country",
+          "request": { "method": "GET", "url": { "raw": "{{baseUrl}}/api/locations/country/{{country}}", "host": ["{{baseUrl}}"], "path": ["api", "locations", "country", "{{country}}"] } }
+        },
+        {
+          "name": "Find locations by country and state",
+          "request": { "method": "GET", "url": { "raw": "{{baseUrl}}/api/locations/country/{{country}}/state/{{state}}", "host": ["{{baseUrl}}"], "path": ["api", "locations", "country", "{{country}}", "state", "{{state}}"] } }
+        },
+        {
+          "name": "Find location by country, state and city",
+          "request": { "method": "GET", "url": { "raw": "{{baseUrl}}/api/locations/country/{{country}}/state/{{state}}/city/{{city}}", "host": ["{{baseUrl}}"], "path": ["api", "locations", "country", "{{country}}", "state", "{{state}}", "city", "{{city}}"] } }
+        },
+        {
+          "name": "Update location",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"country\": \"Brasil\",\n  \"state\": \"São Paulo\",\n  \"city\": \"Campinas\",\n  \"zipCode\": \"13010-000\",\n  \"latitude\": -22.9099,\n  \"longitude\": -47.0626\n}" },
+            "url": { "raw": "{{baseUrl}}/api/locations/{{locationId}}", "host": ["{{baseUrl}}"], "path": ["api", "locations", "{{locationId}}"] }
+          }
+        },
+        {
+          "name": "Delete location",
+          "request": { "method": "DELETE", "url": { "raw": "{{baseUrl}}/api/locations/{{locationId}}", "host": ["{{baseUrl}}"], "path": ["api", "locations", "{{locationId}}"] } }
+        }
+      ]
+    },
+    {
+      "name": "Stores",
+      "item": [
+        {
+          "name": "Create store",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"name\": \"Supermercado Central\",\n  \"description\": \"Supermercado de teste\",\n  \"phone\": \"(11) 3000-1000\",\n  \"website\": \"https://www.exemplo.com.br\"\n}" },
+            "url": { "raw": "{{baseUrl}}/api/stores/{{locationId}}", "host": ["{{baseUrl}}"], "path": ["api", "stores", "{{locationId}}"] }
+          }
+        },
+        { "name": "List stores", "request": { "method": "GET", "url": { "raw": "{{baseUrl}}/api/stores", "host": ["{{baseUrl}}"], "path": ["api", "stores"] } } },
+        { "name": "Get store by id", "request": { "method": "GET", "url": { "raw": "{{baseUrl}}/api/stores/{{storeId}}", "host": ["{{baseUrl}}"], "path": ["api", "stores", "{{storeId}}"] } } },
+        { "name": "Find stores by name", "request": { "method": "GET", "url": { "raw": "{{baseUrl}}/api/stores/name/Supermercado%20Central", "host": ["{{baseUrl}}"], "path": ["api", "stores", "name", "Supermercado%20Central"] } } },
+        { "name": "Find stores by location", "request": { "method": "GET", "url": { "raw": "{{baseUrl}}/api/stores/location/{{locationId}}", "host": ["{{baseUrl}}"], "path": ["api", "stores", "location", "{{locationId}}"] } } },
+        { "name": "Find stores by city", "request": { "method": "GET", "url": { "raw": "{{baseUrl}}/api/stores/city/{{city}}", "host": ["{{baseUrl}}"], "path": ["api", "stores", "city", "{{city}}"] } } },
+        { "name": "Find stores by state", "request": { "method": "GET", "url": { "raw": "{{baseUrl}}/api/stores/state/{{state}}", "host": ["{{baseUrl}}"], "path": ["api", "stores", "state", "{{state}}"] } } },
+        { "name": "Find stores by country", "request": { "method": "GET", "url": { "raw": "{{baseUrl}}/api/stores/country/{{country}}", "host": ["{{baseUrl}}"], "path": ["api", "stores", "country", "{{country}}"] } } },
+        { "name": "Find stores by status", "request": { "method": "GET", "url": { "raw": "{{baseUrl}}/api/stores/status/{{status}}", "host": ["{{baseUrl}}"], "path": ["api", "stores", "status", "{{status}}"] } } },
+        {
+          "name": "Update store",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"name\": \"Supermercado Central Atualizado\",\n  \"description\": \"Supermercado atualizado\",\n  \"phone\": \"(11) 3000-2000\",\n  \"website\": \"https://www.exemplo.com.br\"\n}" },
+            "url": { "raw": "{{baseUrl}}/api/stores/{{storeId}}", "host": ["{{baseUrl}}"], "path": ["api", "stores", "{{storeId}}"] }
+          }
+        },
+        { "name": "Activate store", "request": { "method": "PUT", "url": { "raw": "{{baseUrl}}/api/stores/{{storeId}}/activate", "host": ["{{baseUrl}}"], "path": ["api", "stores", "{{storeId}}", "activate"] } } },
+        { "name": "Deactivate store", "request": { "method": "PUT", "url": { "raw": "{{baseUrl}}/api/stores/{{storeId}}/deactivate", "host": ["{{baseUrl}}"], "path": ["api", "stores", "{{storeId}}", "deactivate"] } } },
+        { "name": "Delete store", "request": { "method": "DELETE", "url": { "raw": "{{baseUrl}}/api/stores/{{storeId}}", "host": ["{{baseUrl}}"], "path": ["api", "stores", "{{storeId}}"] } } }
+      ]
+    },
+    {
+      "name": "Products",
+      "item": [
+        {
+          "name": "Create product",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"name\": \"Arroz Tipo 1\",\n  \"barcode\": \"7891234567890\",\n  \"category\": \"Alimentos\",\n  \"brand\": \"Marca A\",\n  \"unit\": \"KG\",\n  \"weight\": 5.0,\n  \"description\": \"Arroz integral de qualidade\"\n}" },
+            "url": { "raw": "{{baseUrl}}/api/products", "host": ["{{baseUrl}}"], "path": ["api", "products"] }
+          }
+        },
+        { "name": "List products", "request": { "method": "GET", "url": { "raw": "{{baseUrl}}/api/products", "host": ["{{baseUrl}}"], "path": ["api", "products"] } } },
+        { "name": "Get product by id", "request": { "method": "GET", "url": { "raw": "{{baseUrl}}/api/products/{{productId}}", "host": ["{{baseUrl}}"], "path": ["api", "products", "{{productId}}"] } } },
+        { "name": "Find product by name", "request": { "method": "GET", "url": { "raw": "{{baseUrl}}/api/products/name/Arroz%20Tipo%201", "host": ["{{baseUrl}}"], "path": ["api", "products", "name", "Arroz%20Tipo%201"] } } },
+        { "name": "Find product by barcode", "request": { "method": "GET", "url": { "raw": "{{baseUrl}}/api/products/barcode/7891234567890", "host": ["{{baseUrl}}"], "path": ["api", "products", "barcode", "7891234567890"] } } },
+        { "name": "Find products by category", "request": { "method": "GET", "url": { "raw": "{{baseUrl}}/api/products/category/{{category}}", "host": ["{{baseUrl}}"], "path": ["api", "products", "category", "{{category}}"] } } },
+        { "name": "Find products by brand", "request": { "method": "GET", "url": { "raw": "{{baseUrl}}/api/products/brand/{{brand}}", "host": ["{{baseUrl}}"], "path": ["api", "products", "brand", "{{brand}}"] } } },
+        { "name": "Find products by status", "request": { "method": "GET", "url": { "raw": "{{baseUrl}}/api/products/status/{{status}}", "host": ["{{baseUrl}}"], "path": ["api", "products", "status", "{{status}}"] } } },
+        {
+          "name": "Update product",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"name\": \"Arroz Tipo 1 Atualizado\",\n  \"barcode\": \"7891234567890\",\n  \"category\": \"Alimentos\",\n  \"brand\": \"Marca A\",\n  \"unit\": \"KG\",\n  \"weight\": 5.0,\n  \"description\": \"Produto atualizado\"\n}" },
+            "url": { "raw": "{{baseUrl}}/api/products/{{productId}}", "host": ["{{baseUrl}}"], "path": ["api", "products", "{{productId}}"] }
+          }
+        },
+        { "name": "Delete product", "request": { "method": "DELETE", "url": { "raw": "{{baseUrl}}/api/products/{{productId}}", "host": ["{{baseUrl}}"], "path": ["api", "products", "{{productId}}"] } } }
+      ]
+    },
+    {
+      "name": "Receipts and items",
+      "item": [
+        {
+          "name": "Create receipt",
+          "request": {
+            "method": "POST",
+            "url": { "raw": "{{baseUrl}}/api/receipts?storeId={{storeId}}&receiptNumber=NF-001&purchaseDate=2024-10-26T10:30:00&totalAmount=150.50", "host": ["{{baseUrl}}"], "path": ["api", "receipts"], "query": [{ "key": "storeId", "value": "{{storeId}}" }, { "key": "receiptNumber", "value": "NF-001" }, { "key": "purchaseDate", "value": "2024-10-26T10:30:00" }, { "key": "totalAmount", "value": "150.50" }] }
+          }
+        },
+        { "name": "List receipts", "request": { "method": "GET", "url": { "raw": "{{baseUrl}}/api/receipts", "host": ["{{baseUrl}}"], "path": ["api", "receipts"] } } },
+        { "name": "Get receipt by id", "request": { "method": "GET", "url": { "raw": "{{baseUrl}}/api/receipts/{{receiptId}}", "host": ["{{baseUrl}}"], "path": ["api", "receipts", "{{receiptId}}"] } } },
+        { "name": "Find receipts by store", "request": { "method": "GET", "url": { "raw": "{{baseUrl}}/api/receipts/store/{{storeId}}", "host": ["{{baseUrl}}"], "path": ["api", "receipts", "store", "{{storeId}}"] } } },
+        { "name": "Find receipts by date range", "request": { "method": "GET", "url": { "raw": "{{baseUrl}}/api/receipts/date-range?startDate={{startDate}}&endDate={{endDate}}", "host": ["{{baseUrl}}"], "path": ["api", "receipts", "date-range"], "query": [{ "key": "startDate", "value": "{{startDate}}" }, { "key": "endDate", "value": "{{endDate}}" }] } } },
+        {
+          "name": "Add item to receipt",
+          "request": { "method": "POST", "url": { "raw": "{{baseUrl}}/api/receipts/{{receiptId}}/items?productId={{productId}}&quantity=2&unitPrice=25.90", "host": ["{{baseUrl}}"], "path": ["api", "receipts", "{{receiptId}}", "items"], "query": [{ "key": "productId", "value": "{{productId}}" }, { "key": "quantity", "value": "2" }, { "key": "unitPrice", "value": "25.90" }] } }
+        },
+        { "name": "List receipt items", "request": { "method": "GET", "url": { "raw": "{{baseUrl}}/api/receipts/{{receiptId}}/items", "host": ["{{baseUrl}}"], "path": ["api", "receipts", "{{receiptId}}", "items"] } } },
+        { "name": "Remove receipt item", "request": { "method": "DELETE", "url": { "raw": "{{baseUrl}}/api/receipts/items/{{itemId}}", "host": ["{{baseUrl}}"], "path": ["api", "receipts", "items", "{{itemId}}"] } } },
+        { "name": "Cancel receipt", "request": { "method": "PUT", "url": { "raw": "{{baseUrl}}/api/receipts/{{receiptId}}/cancel", "host": ["{{baseUrl}}"], "path": ["api", "receipts", "{{receiptId}}", "cancel"] } } },
+        { "name": "Update receipt", "request": { "method": "PUT", "url": { "raw": "{{baseUrl}}/api/receipts/{{receiptId}}?totalAmount=175.50&notes=Atualizado", "host": ["{{baseUrl}}"], "path": ["api", "receipts", "{{receiptId}}"], "query": [{ "key": "totalAmount", "value": "175.50" }, { "key": "notes", "value": "Atualizado" }] } } }
+      ]
+    },
+    {
+      "name": "Price analytics",
+      "item": [
+        { "name": "Analyze product prices", "request": { "method": "GET", "url": { "raw": "{{baseUrl}}/api/prices/analysis/{{productId}}", "host": ["{{baseUrl}}"], "path": ["api", "prices", "analysis", "{{productId}}"] } } },
+        { "name": "Compare prices by city", "request": { "method": "GET", "url": { "raw": "{{baseUrl}}/api/prices/compare/city/{{productId}}/{{city}}", "host": ["{{baseUrl}}"], "path": ["api", "prices", "compare", "city", "{{productId}}", "{{city}}"] } } },
+        { "name": "Compare prices by state", "request": { "method": "GET", "url": { "raw": "{{baseUrl}}/api/prices/compare/state/{{productId}}/{{state}}", "host": ["{{baseUrl}}"], "path": ["api", "prices", "compare", "state", "{{productId}}", "{{state}}"] } } },
+        { "name": "Compare prices by country", "request": { "method": "GET", "url": { "raw": "{{baseUrl}}/api/prices/compare/country/{{productId}}/{{country}}", "host": ["{{baseUrl}}"], "path": ["api", "prices", "compare", "country", "{{productId}}", "{{country}}"] } } },
+        { "name": "Get price history", "request": { "method": "GET", "url": { "raw": "{{baseUrl}}/api/prices/history/{{productId}}?startDate={{startDate}}&endDate={{endDate}}", "host": ["{{baseUrl}}"], "path": ["api", "prices", "history", "{{productId}}"], "query": [{ "key": "startDate", "value": "{{startDate}}" }, { "key": "endDate", "value": "{{endDate}}" }] } } }
+      ]
+    }
+  ]
+}
