@@ -1,4 +1,9 @@
 spring:
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration
+      - org.springframework.boot.autoconfigure.data.redis.RedisRepositoriesAutoConfiguration
+
   application:
     name: Pretium - Rastreador de Preços em Supermercados
 
@@ -34,10 +39,30 @@ spring:
     resources:
       add-mappings: false
 
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+      timeout: 2s
+
 server:
   port: 8081
   servlet:
     context-path: /
+
+pretium:
+  alerts:
+    check-interval-ms: ${PRETIUM_ALERT_CHECK_INTERVAL_MS:300000}
+  ocr:
+    data-path: ${TESSDATA_PREFIX:}
+    language: ${PRETIUM_OCR_LANGUAGE:por}
+  supermarket-api:
+    base-url: ${PRETIUM_SUPERMARKET_API_URL:}
 
 logging:
   level:
@@ -54,4 +79,3 @@ management:
   endpoint:
     health:
       show-details: always
-

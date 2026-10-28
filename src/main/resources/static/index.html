@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pretium Dashboard</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 960px; margin: 2rem auto; padding: 0 1rem; background: #f5f7fb; color: #172033; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; }
+    .card { background: white; border-radius: 12px; padding: 1.25rem; box-shadow: 0 2px 12px #17203318; }
+    .value { display: block; font-size: 2rem; font-weight: 700; margin-top: .5rem; }
+    button { border: 0; border-radius: 8px; padding: .7rem 1rem; background: #2457d6; color: white; cursor: pointer; }
+    #status { margin: 1rem 0; color: #536174; }
+  </style>
+</head>
+<body>
+  <h1>Pretium</h1>
+  <p>Resumo de preços, lojas e compras</p>
+  <button id="refresh">Atualizar</button>
+  <p id="status">Carregando...</p>
+  <section class="grid">
+    <div class="card">Produtos<span class="value" id="products">-</span></div>
+    <div class="card">Lojas<span class="value" id="stores">-</span></div>
+    <div class="card">Cupons<span class="value" id="receipts">-</span></div>
+    <div class="card">Total gasto<span class="value" id="spent">-</span></div>
+  </section>
+  <script>
+    async function loadSummary() {
+      const status = document.getElementById('status');
+      try {
+        const response = await fetch('/api/dashboard/summary');
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        const data = await response.json();
+        document.getElementById('products').textContent = data.totalProducts;
+        document.getElementById('stores').textContent = data.totalStores;
+        document.getElementById('receipts').textContent = data.totalReceipts;
+        document.getElementById('spent').textContent = `R$ ${Number(data.totalSpent).toFixed(2)}`;
+        status.textContent = `Atualizado em ${new Date(data.generatedAt).toLocaleString('pt-BR')}`;
+      } catch (error) {
+        status.textContent = `Não foi possível carregar o dashboard: ${error.message}`;
+      }
+    }
+    document.getElementById('refresh').addEventListener('click', loadSummary);
+    loadSummary();
+  </script>
+</body>
+</html>
+

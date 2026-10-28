@@ -1,0 +1,62 @@
+{
+  "info": {
+    "name": "Pretium - Funcionalidades avançadas",
+    "description": "Endpoints de dashboard, alertas, previsões, OCR, PDF e integração externa.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:8081" },
+    { "key": "productId", "value": "1" },
+    { "key": "receiptId", "value": "1" },
+    { "key": "alertId", "value": "1" }
+  ],
+  "item": [
+    {
+      "name": "Dashboard",
+      "item": [
+        { "name": "Dashboard summary", "request": { "method": "GET", "url": "{{baseUrl}}/api/dashboard/summary" } }
+      ]
+    },
+    {
+      "name": "Price alerts",
+      "item": [
+        { "name": "Create price alert", "request": { "method": "POST", "url": "{{baseUrl}}/api/alerts?productId={{productId}}&targetPrice=20.00&conditionType=BELOW" } },
+        { "name": "List price alerts", "request": { "method": "GET", "url": "{{baseUrl}}/api/alerts" } },
+        { "name": "Get price alert", "request": { "method": "GET", "url": "{{baseUrl}}/api/alerts/{{alertId}}" } },
+        { "name": "Deactivate price alert", "request": { "method": "DELETE", "url": "{{baseUrl}}/api/alerts/{{alertId}}" } }
+      ]
+    },
+    {
+      "name": "Prediction",
+      "item": [
+        { "name": "Forecast product price", "request": { "method": "GET", "url": "{{baseUrl}}/api/predictions/{{productId}}" } }
+      ]
+    },
+    {
+      "name": "Reports",
+      "item": [
+        { "name": "Receipt PDF", "request": { "method": "GET", "url": "{{baseUrl}}/api/reports/receipt/{{receiptId}}/pdf" } }
+      ]
+    },
+    {
+      "name": "OCR",
+      "item": [
+        {
+          "name": "Read receipt image",
+          "request": {
+            "method": "POST",
+            "body": { "mode": "formdata", "formdata": [{ "key": "file", "type": "file", "src": "" }] },
+            "url": "{{baseUrl}}/api/ocr/receipt"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Supermarket integration",
+      "item": [
+        { "name": "Search external products", "request": { "method": "GET", "url": "{{baseUrl}}/api/integrations/supermarkets/products?query=arroz" } }
+      ]
+    }
+  ]
+}
+

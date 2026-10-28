@@ -1,0 +1,14 @@
+spring:
+  config:
+    activate:
+      on-profile: security
+  autoconfigure:
+    exclude: []
+
+pretium:
+  security:
+    jwt:
+      # Substitua PRETIUM_JWT_SECRET em produção por um segredo aleatório com pelo menos 32 bytes.
+      secret: ${PRETIUM_JWT_SECRET:dev-only-change-this-secret-to-at-least-32-bytes}
+      access-token-seconds: ${PRETIUM_JWT_ACCESS_SECONDS:900}
+      refresh-token-days: ${PRETIUM_JWT_REFRESH_DAYS:7}

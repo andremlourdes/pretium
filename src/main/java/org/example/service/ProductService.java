@@ -11,12 +11,17 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * Serviço para gerenciar operações com Produtos.
  */
 @Service
 @Transactional
 public class ProductService {
+
+    private static final Logger log = LoggerFactory.getLogger(ProductService.class);
 
     @Autowired
     private ProductRepository productRepository;
@@ -35,6 +40,7 @@ public class ProductService {
         product.setUpdatedAt(LocalDateTime.now());
 
         Product saved = productRepository.save(product);
+        log.info("Produto criado com sucesso: {}", product);
         return convertToDTO(saved);
     }
 
@@ -52,6 +58,7 @@ public class ProductService {
         product.setUpdatedAt(LocalDateTime.now());
 
         Product updated = productRepository.save(product);
+        log.info("Produto atualizado com sucesso: {}", product);
         return convertToDTO(updated);
     }
 
@@ -97,6 +104,7 @@ public class ProductService {
 
     public void deleteProduct(Long id) {
         productRepository.deleteById(id);
+        log.info("Produto removido com sucesso: {}", id);
     }
 
     private ProductDTO convertToDTO(Product product) {
@@ -115,7 +123,3 @@ public class ProductService {
         return dto;
     }
 }
-
-
-
-

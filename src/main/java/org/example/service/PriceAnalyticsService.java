@@ -11,11 +11,14 @@ import org.example.repository.StoreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
@@ -24,6 +27,8 @@ import java.util.stream.Collectors;
 @Service
 @Transactional(readOnly = true)
 public class PriceAnalyticsService {
+
+    private static final Logger log = LoggerFactory.getLogger(PriceAnalyticsService.class);
 
     @Autowired
     private PriceHistoryRepository priceHistoryRepository;
@@ -167,8 +172,40 @@ public class PriceAnalyticsService {
      * Encontra os produtos mais baratos de uma cidade.
      */
     public List<PriceComparisonDTO> getCheapestProductsByCity(String city, int limit) {
-        // Implementação seria mais complexa em cenário real
-        return new ArrayList<>();
+        if (city == null || city.isBlank()) {
+            throw new IllegalArgumentException("Cidade é obrigatória");
+        }
+        if (limit <= 0) {
+            throw new IllegalArgumentException("Limite deve ser maior que zero");
+        }
+
+        log.info("Buscando produtos mais baratos da cidade={} com limite={}", city, limit);
+
+        List<Store> stores = storeRepository.findActiveStoresByCity(city);
+        if (stores.isEmpty()) {
+            log.warn("Nenhuma loja ativa encontrada para a cidade={}", city);
+            return List.of();
+        }
+
+        Map<Long, PriceHistory> latestPriceByProduct = stores.stream()
+            .flatMap(store -> priceHistoryRepository.findByStore(store).stream())
+            .filter(priceHistory -> priceHistory.getPrice() != null)
+            .collect(Collectors.toMap(
+                priceHistory -> priceHistory.getProduct().getId(),
+                Function.identity(),
+                (existing, replacement) -> existing.getRecordedDate().isAfter(replacement.getRecordedDate())
+                    ? existing
+                    : replacement
+            ));
+
+        List<PriceComparisonDTO> results = latestPriceByProduct.values().stream()
+            .sorted(Comparator.comparing(PriceHistory::getPrice))
+            .limit(limit)
+            .map(this::convertToPriceComparisonDTO)
+            .collect(Collectors.toList());
+
+        log.info("Consulta finalizada para cidade={} retornou {} registros", city, results.size());
+        return results;
     }
 
     /**
@@ -209,7 +246,3 @@ public class PriceAnalyticsService {
         return dto;
     }
 }
-
-
-
-

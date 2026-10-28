@@ -1,0 +1,53 @@
+version: '3.9'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: pretium-app
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_PROFILES_ACTIVE: prod,security
+      PRETIUM_DB_URL: jdbc:postgresql://postgres:5432/pretium
+      PRETIUM_DB_USERNAME: ${PRETIUM_DB_USERNAME:-pretium}
+      PRETIUM_DB_PASSWORD: ${PRETIUM_DB_PASSWORD:-pretium123}
+      PRETIUM_JWT_SECRET: ${PRETIUM_JWT_SECRET}
+    depends_on:
+      - postgres
+    restart: unless-stopped
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: pretium-postgres
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-pretium}
+      POSTGRES_USER: ${POSTGRES_USER:-pretium}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-pretium123}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  prometheus:
+    image: prom/prometheus:v2.53.0
+    container_name: pretium-prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    restart: unless-stopped
+
+  grafana:
+    image: grafana/grafana:11.0.0
+    container_name: pretium-grafana
+    ports:
+      - "3000:3000"
+    depends_on:
+      - prometheus
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
